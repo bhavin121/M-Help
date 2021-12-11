@@ -1,23 +1,20 @@
 package com.example.m_help
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.m_help.auth.GoogleSignInHelper
 import com.example.m_help.databinding.ActivityMainBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import java.lang.Exception
+import com.example.m_help.fragments.SplashFragment
 
 class MainActivity : AppCompatActivity(), AFI {
 
+    private lateinit var launcher: ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityMainBinding
     private lateinit var googleSignInHelper: GoogleSignInHelper
 
@@ -28,7 +25,7 @@ class MainActivity : AppCompatActivity(), AFI {
 
         googleSignInHelper = GoogleSignInHelper(this)
 
-        val launcher = registerForActivityResult(
+        launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult(),
             ActivityResultCallback {
                 if (it.resultCode != RESULT_OK) return@ActivityResultCallback
@@ -47,7 +44,17 @@ class MainActivity : AppCompatActivity(), AFI {
             }
         )
 
+        changeFragmentTo(SplashFragment(), false)
+    }
 
+    override fun onStart() {
+        super.onStart()
+        val account = googleSignInHelper.getSignedInUser()
+        if(account==null){
+            // sends to sign in fragment
+        }else{
+            // send to dashboard
+        }
     }
 
     override fun changeFragmentTo(fragment: Fragment?, clearStack: Boolean) {
@@ -57,6 +64,14 @@ class MainActivity : AppCompatActivity(), AFI {
             .replace(R.id.frame, fragment!!)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun signIn() {
+        googleSignInHelper.signIn(launcher)
+    }
+
+    override fun signOut() {
+        googleSignInHelper.signOut()
     }
 
     private fun clearBackStack() {
