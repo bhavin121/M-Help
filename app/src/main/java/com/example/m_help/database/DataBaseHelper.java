@@ -9,6 +9,7 @@ import com.example.m_help.dataClasses.BloodGroup;
 import com.example.m_help.dataClasses.Donor;
 import com.example.m_help.dataClasses.Hospital;
 import com.example.m_help.dataClasses.Patient;
+import com.example.m_help.fcm.FcmHelper;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -101,6 +102,14 @@ public class DataBaseHelper {
 
     public void updateIcuBeds(String email, int data, Listener<Integer> listener){
         updateData(email, HOSPITALS, "availableIcuBed", data, listener);
+    }
+
+    public void updateReceiveBloodReq(String email, boolean data, Listener<Boolean> listener){
+        updateData(email, DONORS, "receiveForBlood", data, listener);
+    }
+
+    public void updateReceivePlasmaReq(String email, boolean data, Listener<Boolean> listener){
+        updateData(email, DONORS, "receiveForPlasma", data, listener);
     }
 
     private <T> void updateData(String email, String collectionName, String field, T t, Listener<T> listener){

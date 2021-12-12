@@ -6,24 +6,28 @@ import com.google.firebase.messaging.ktx.messaging
 object FcmHelper {
 
     fun generateTopic(city:String?, data:String?):String{
-        return "$city-$data"
+        return "$city-$data".replace('+','p').replace('-','n')
     }
 
     fun subscribeTopic(topic:String, listener: Listener){
         Firebase.messaging.subscribeToTopic(topic)
-            .addOnSuccessListener {
-                listener.onSuccess()
-            }.addOnFailureListener {
-                listener.onFailure(it.message)
+            .addOnCompleteListener {
+                if(it.isSuccessful){
+                    listener.onSuccess()
+                }else{
+                    listener.onFailure(it.exception?.message)
+                }
             }
     }
 
     fun unsubscribeTopic(topic:String, listener: Listener){
         Firebase.messaging.unsubscribeFromTopic(topic)
-            .addOnSuccessListener {
-                listener.onSuccess()
-            }.addOnFailureListener {
-                listener.onFailure(it.message)
+            .addOnCompleteListener {
+                if(it.isSuccessful){
+                    listener.onSuccess()
+                }else{
+                    listener.onFailure(it.exception?.message)
+                }
             }
     }
 

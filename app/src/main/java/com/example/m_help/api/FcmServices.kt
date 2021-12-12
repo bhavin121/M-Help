@@ -14,18 +14,23 @@ object FcmServices {
         .build()
         .create(FcmApi::class.java)
 
-    fun sendMessageToTopic(notification: PushNotification){
+    fun sendMessageToTopic(notification: PushNotification, listener: Listener){
         notification.to = "/topics/${notification.to}"
         a.sendMessage(notification)
             .enqueue(object: Callback<Void>{
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    println("Send Success")
+                    println(notification)
+                    listener.onSuccess()
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    println("Send Failed")
+                    listener.onFailure(t.message)
                 }
             })
     }
 
+    interface Listener{
+        fun onSuccess()
+        fun onFailure(message:String?)
+    }
 }

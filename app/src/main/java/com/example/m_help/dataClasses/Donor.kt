@@ -6,6 +6,6 @@ data class Donor(
     val address: Address? = null,
     val bloodGroup: String = "",
     val donorType: String = "",
-    val receiveForBlood: Boolean = true,
-    val receiveForPlasma: Boolean = true
+    var receiveForBlood: Boolean? = true,
+    var receiveForPlasma: Boolean? = true
 )
