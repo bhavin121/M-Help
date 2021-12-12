@@ -131,30 +131,27 @@ class DonorFragment : Fragment() {
             binding.plasmaReq.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#f44336"))
             binding.plasmaReq.text = "Stop receiving requests for plasma"
             binding.plasmaReq.setOnClickListener {
+                FcmHelper.unsubscribeTopic(FcmHelper.generateTopic(donor.address?.city, "plasma"),
+                    object:FcmHelper.Listener{
+                        override fun onSuccess() {
+                            dataBaseHelper.updateReceivePlasmaReq(Helper.email, false, object :DataBaseHelper.Listener<Boolean>{
+                                override fun onSuccess(t: Boolean?) {
+                                    donor.receiveForPlasma = t
+                                    setPlasmaData()
+                                    Toast.makeText(requireContext(),"Change saved", Toast.LENGTH_SHORT).show()
+                                }
 
-                binding.plasmaReq.setOnClickListener {
-                    FcmHelper.unsubscribeTopic(FcmHelper.generateTopic(donor.address?.city, "plasma"),
-                        object:FcmHelper.Listener{
-                            override fun onSuccess() {
-                                dataBaseHelper.updateReceivePlasmaReq(Helper.email, false, object :DataBaseHelper.Listener<Boolean>{
-                                    override fun onSuccess(t: Boolean?) {
-                                        donor.receiveForPlasma = t
-                                        setPlasmaData()
-                                        Toast.makeText(requireContext(),"Change saved", Toast.LENGTH_SHORT).show()
-                                    }
+                                override fun onFailure(message: String?) {
+                                    Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                        }
 
-                                    override fun onFailure(message: String?) {
-                                        Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
-                                    }
-                                })
-                            }
+                        override fun onFailure(message: String?) {
+                            Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
+                        }
 
-                            override fun onFailure(message: String?) {
-                                Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
-                            }
-
-                        })
-                }
+                    })
             }
         }else{
             binding.plasmaReq.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#00B060"))

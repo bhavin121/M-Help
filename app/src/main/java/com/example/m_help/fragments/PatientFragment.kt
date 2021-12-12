@@ -15,7 +15,6 @@ import com.example.m_help.Helper.completeAddress
 import com.example.m_help.api.FcmServices
 import com.example.m_help.api.classes.Notification
 import com.example.m_help.api.classes.PushNotification
-import com.example.m_help.database.DataBaseHelper
 import com.example.m_help.databinding.ChooseBloodGroupBinding
 import com.example.m_help.databinding.FragmentPatientBinding
 import com.example.m_help.fcm.FcmHelper
@@ -25,7 +24,6 @@ class PatientFragment : Fragment() {
     private var _binding: FragmentPatientBinding? = null
     private lateinit var afi: AFI
     private val binding: FragmentPatientBinding get() = _binding!!
-    private val dataBaseHelper = DataBaseHelper()
     val patient = Helper.patient
     private lateinit var chooseBloodGroupBinding: ChooseBloodGroupBinding
     private lateinit var chooseBloodGroupDialog: AlertDialog
@@ -71,11 +69,15 @@ class PatientFragment : Fragment() {
             chooseBloodGroupDialog.show()
         }
 
+        binding.findHospital.setOnClickListener {
+            afi.changeFragmentTo(HospitalsMapFragment(), false)
+        }
+
         buildDialogs()
         return binding.root
     }
 
-    fun buildDialogs(){
+    private fun buildDialogs(){
         chooseBloodGroupBinding = ChooseBloodGroupBinding.inflate(LayoutInflater.from(requireContext()))
         chooseBloodGroupDialog = AlertDialog.Builder(requireContext())
             .setView(chooseBloodGroupBinding.root)

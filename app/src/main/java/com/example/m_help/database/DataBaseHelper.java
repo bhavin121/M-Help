@@ -1,22 +1,16 @@
 package com.example.m_help.database;
 
-import android.util.Pair;
-
-import androidx.annotation.NonNull;
-
 import com.example.m_help.dataClasses.BloodBank;
 import com.example.m_help.dataClasses.BloodGroup;
 import com.example.m_help.dataClasses.Donor;
 import com.example.m_help.dataClasses.Hospital;
 import com.example.m_help.dataClasses.Patient;
-import com.example.m_help.fcm.FcmHelper;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.List;
+
+import kotlin.Pair;
 
 public class DataBaseHelper {
 
@@ -127,7 +121,7 @@ public class DataBaseHelper {
         CollectionReference c = db.collection(HOSPITALS);
         Query q = c.whereEqualTo("address.city", city);
         for ( Pair<String,Object> datum : data ) {
-            q = q.whereGreaterThan(datum.first , datum.second);
+            q = q.whereGreaterThan(datum.getFirst() , datum.getSecond());
         }
 
         q.get().addOnSuccessListener(queryDocumentSnapshots -> {

@@ -1,9 +1,6 @@
 package com.example.m_help
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
@@ -13,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.m_help.auth.GoogleSignInHelper
-import com.example.m_help.dataClasses.Address
 import com.example.m_help.databinding.ActivityMainBinding
 import com.example.m_help.fragments.HomeFragment
 import com.example.m_help.fragments.SignInFragment
@@ -47,13 +43,11 @@ class MainActivity : AppCompatActivity(), AFI {
                         Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT)
                             .show()
                     }
-
                 })
             }
         )
 
         changeFragmentTo(SplashFragment(), false)
-
 
     }
 
