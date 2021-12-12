@@ -4,14 +4,31 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 
 object FcmHelper {
-    fun subscribeTopic(topic:String){
+
+    fun generateTopic(city:String?, data:String?):String{
+        return "$city-$data"
+    }
+
+    fun subscribeTopic(topic:String, listener: Listener){
         Firebase.messaging.subscribeToTopic(topic)
             .addOnSuccessListener {
-                println("Subscribed for topic $topic")
+                listener.onSuccess()
             }.addOnFailureListener {
-                println("Failed to subscribed for topic $topic")
+                listener.onFailure(it.message)
             }
     }
 
+    fun unsubscribeTopic(topic:String, listener: Listener){
+        Firebase.messaging.unsubscribeFromTopic(topic)
+            .addOnSuccessListener {
+                listener.onSuccess()
+            }.addOnFailureListener {
+                listener.onFailure(it.message)
+            }
+    }
 
+    interface Listener{
+        fun onSuccess()
+        fun onFailure(message: String?)
+    }
 }

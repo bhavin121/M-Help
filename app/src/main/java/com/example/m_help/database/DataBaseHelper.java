@@ -83,32 +83,32 @@ public class DataBaseHelper {
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
     }
 
-    public void updateHospitalBloodData(String email,BloodGroup bloodGroup, Listener<Void> listener){
+    public void updateHospitalBloodData(String email,BloodGroup bloodGroup, Listener<BloodGroup> listener){
         updateData(email, HOSPITALS, "bloodGroup", bloodGroup, listener);
     }
 
-    public void updateBloodBankBloodData(String email,BloodGroup bloodGroup, Listener<Void> listener){
+    public void updateBloodBankBloodData(String email,BloodGroup bloodGroup, Listener<BloodGroup> listener){
         updateData(email, BLOOD_BANKS, "bloodGroup", bloodGroup, listener);
     }
 
-    public void updateOxygenCylinder(String email, int data, Listener<Void> listener){
+    public void updateOxygenCylinder(String email, int data, Listener<Integer> listener){
         updateData(email, HOSPITALS, "availableOxygenCylinder", data, listener);
     }
 
-    public void updateOxygen(String email, double data, Listener<Void> listener){
+    public void updateOxygen(String email, double data, Listener<Double> listener){
         updateData(email, HOSPITALS, "availableOxygen", data, listener);
     }
 
-    public void updateIcuBeds(String email, int data, Listener<Void> listener){
+    public void updateIcuBeds(String email, int data, Listener<Integer> listener){
         updateData(email, HOSPITALS, "availableIcuBed", data, listener);
     }
 
-    private <T> void updateData(String email, String collectionName, String field, T t, Listener<Void> listener){
+    private <T> void updateData(String email, String collectionName, String field, T t, Listener<T> listener){
         db.collection(collectionName)
                 .document(email)
                 .update(field, t)
                 .addOnSuccessListener(unused -> {
-                    listener.onSuccess(null);
+                    listener.onSuccess(t);
                 })
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
     }

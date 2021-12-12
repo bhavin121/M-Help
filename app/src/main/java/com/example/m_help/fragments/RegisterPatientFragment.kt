@@ -2,21 +2,17 @@ package com.example.m_help.fragments
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.m_help.AFI
 import com.example.m_help.Helper
-import com.example.m_help.R
-import com.example.m_help.dataClasses.Donor
 import com.example.m_help.dataClasses.Patient
 import com.example.m_help.database.DataBaseHelper
-import com.example.m_help.databinding.FragmentRegisterDonorBinding
 import com.example.m_help.databinding.FragmentRegisterPatientBinding
-import java.lang.RuntimeException
 
 class RegisterPatientFragment : Fragment() {
     private var _binding: FragmentRegisterPatientBinding? = null
@@ -70,11 +66,12 @@ class RegisterPatientFragment : Fragment() {
             )
             dataBaseHelper.registerPatient(Helper.email, patient, object: DataBaseHelper.Listener<Void>{
                 override fun onSuccess(t: Void?) {
-                    println("Success Donor inserted")
+                    Helper.patient = patient
+                    afi.changeFragmentTo(PatientFragment(), false)
                 }
 
                 override fun onFailure(message: String?) {
-                    println(message)
+                    Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
                 }
             })
         }

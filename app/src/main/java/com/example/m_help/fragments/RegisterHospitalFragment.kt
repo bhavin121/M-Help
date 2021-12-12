@@ -59,11 +59,12 @@ class RegisterHospitalFragment : Fragment() {
             )
             dataBaseHelper.registerHospital(Helper.email, hospital, object: DataBaseHelper.Listener<Void>{
                 override fun onSuccess(t: Void?) {
-                    println("Success Donor inserted")
+                    Helper.hospital = hospital
+                    afi.changeFragmentTo(HospitalFragment(), false)
                 }
 
                 override fun onFailure(message: String?) {
-                    println(message)
+                    Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
                 }
             })
         }

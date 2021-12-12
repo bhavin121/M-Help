@@ -1,10 +1,10 @@
 package com.example.m_help.dataClasses
 
 data class Address (
-    val city: String,
-    val state: String,
-    val street: String,
-    val country: String,
-    val latitude: Double,
-    val longitude: Double
+    val city: String?=null,
+    val state: String?=null,
+    val street: String?=null,
+    val country: String? =null,
+    val latitude: Double? = 0.0,
+    val longitude: Double? = 0.0
 )

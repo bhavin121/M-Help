@@ -13,6 +13,7 @@ import com.example.m_help.Helper
 import com.example.m_help.dataClasses.Donor
 import com.example.m_help.database.DataBaseHelper
 import com.example.m_help.databinding.FragmentRegisterDonorBinding
+import com.example.m_help.fcm.FcmHelper
 
 class RegisterDonorFragment : Fragment() {
 
@@ -72,16 +73,84 @@ class RegisterDonorFragment : Fragment() {
                 donorType = donorType,
                 address = address
             )
-            dataBaseHelper.registerDonor(Helper.email, donor, object:DataBaseHelper.Listener<Void>{
-                override fun onSuccess(t: Void?) {
-                    println("Success Donor inserted")
-                }
+            when (donorType) {
+                donorTypes[2] -> {
+                    val topic = FcmHelper.generateTopic(address?.city,bloodGroup)
+                    FcmHelper.subscribeTopic(topic, object:FcmHelper.Listener{
+                        override fun onSuccess() {
+                            val topic2 = FcmHelper.generateTopic(address?.city,"plasma")
+                            FcmHelper.subscribeTopic(topic2, object:FcmHelper.Listener{
+                                override fun onSuccess() {
+                                    dataBaseHelper.registerDonor(Helper.email, donor, object:DataBaseHelper.Listener<Void>{
+                                        override fun onSuccess(t: Void?) {
+                                            Helper.donor = donor
+                                            afi.changeFragmentTo(DonorFragment(), false)
+                                        }
 
-                override fun onFailure(message: String?) {
-                    println(message)
-                }
+                                        override fun onFailure(message: String?) {
+                                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()                                        }
 
-            })
+                                    })
+                                }
+
+                                override fun onFailure(message: String?) {
+                                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                                }
+
+                            })
+                        }
+
+                        override fun onFailure(message: String?) {
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
+                }
+                donorTypes[1] -> {
+                    val topic = FcmHelper.generateTopic(address?.city,"plasma")
+                    FcmHelper.subscribeTopic(topic, object:FcmHelper.Listener{
+                        override fun onSuccess() {
+                            dataBaseHelper.registerDonor(Helper.email, donor, object:DataBaseHelper.Listener<Void>{
+                                override fun onSuccess(t: Void?) {
+                                    Helper.donor = donor
+                                    afi.changeFragmentTo(DonorFragment(), false)
+                                }
+
+                                override fun onFailure(message: String?) {
+                                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()                                        }
+
+                            })
+                        }
+
+                        override fun onFailure(message: String?) {
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
+                }
+                donorTypes[0] -> {
+                    val topic = FcmHelper.generateTopic(address?.city,bloodGroup)
+                    FcmHelper.subscribeTopic(topic, object:FcmHelper.Listener{
+                        override fun onSuccess() {
+                            dataBaseHelper.registerDonor(Helper.email, donor, object:DataBaseHelper.Listener<Void>{
+                                override fun onSuccess(t: Void?) {
+                                    Helper.donor = donor
+                                    afi.changeFragmentTo(DonorFragment(), false)
+                                }
+
+                                override fun onFailure(message: String?) {
+                                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()                                        }
+
+                            })
+                        }
+
+                        override fun onFailure(message: String?) {
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
+                }
+            }
         }
 
         return binding.root

@@ -57,11 +57,12 @@ class RegisterBloodBankFragment : Fragment() {
             )
             dataBaseHelper.registerBloodBank(Helper.email, bloodBank, object: DataBaseHelper.Listener<Void>{
                 override fun onSuccess(t: Void?) {
-                    println("Success Donor inserted")
+                    Helper.bloodBank = bloodBank
+                    afi.changeFragmentTo(BloodBankPanelFragment(), false)
                 }
 
                 override fun onFailure(message: String?) {
-                    println(message)
+                    Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
                 }
             })
         }

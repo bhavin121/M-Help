@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.m_help.auth.GoogleSignInHelper
+import com.example.m_help.dataClasses.Address
 import com.example.m_help.databinding.ActivityMainBinding
 import com.example.m_help.fragments.HomeFragment
 import com.example.m_help.fragments.SignInFragment
@@ -89,9 +90,17 @@ class MainActivity : AppCompatActivity(), AFI {
     }
 
     override fun signOut() {
-        googleSignInHelper.signOut {
-            changeFragmentTo(SignInFragment(), true)
-        }
+        googleSignInHelper.signOut(object:GoogleSignInHelper.Listener{
+            override fun onSuccess(name: String?, email: String?) {
+                changeFragmentTo(SignInFragment(), true)
+            }
+
+            override fun onFailure(message: String?) {
+                Toast.makeText(this@MainActivity,"Sign Out Failed", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        })
     }
 
     private fun clearBackStack() {
