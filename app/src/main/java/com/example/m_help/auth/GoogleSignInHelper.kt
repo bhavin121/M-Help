@@ -37,8 +37,11 @@ class GoogleSignInHelper(private val context: Context) {
         }
     }
 
-    fun signOut(){
+    fun signOut(success: ()->Unit){
         googleSignInClient.signOut()
+            .addOnSuccessListener {
+                success()
+            }
     }
 
     fun signIn(launcher: ActivityResultLauncher<Intent>){

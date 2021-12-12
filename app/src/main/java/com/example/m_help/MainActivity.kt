@@ -2,6 +2,7 @@ package com.example.m_help
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.m_help.auth.GoogleSignInHelper
 import com.example.m_help.databinding.ActivityMainBinding
+import com.example.m_help.fragments.HomeFragment
+import com.example.m_help.fragments.SignInFragment
 import com.example.m_help.fragments.SplashFragment
 
 class MainActivity : AppCompatActivity(), AFI {
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity(), AFI {
                     override fun onSuccess(name: String?, email: String?) {
                         Helper.name = name
                         Helper.email = email
+                        changeFragmentTo(HomeFragment(), true)
                     }
 
                     override fun onFailure(message: String?) {
@@ -45,6 +49,15 @@ class MainActivity : AppCompatActivity(), AFI {
         )
 
         changeFragmentTo(SplashFragment(), false)
+
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (supportFragmentManager.backStackEntryCount == 0) {
+            super.onBackPressed()
+        }
     }
 
     override fun onStart() {
@@ -52,8 +65,13 @@ class MainActivity : AppCompatActivity(), AFI {
         val account = googleSignInHelper.getSignedInUser()
         if(account==null){
             // sends to sign in fragment
+            Handler().postDelayed({ changeFragmentTo(SignInFragment(), true) }, 1000)
         }else{
-            // send to dashboard
+            Helper.name = account.displayName
+            Helper.email = account.email
+            Handler().postDelayed({
+                changeFragmentTo(HomeFragment(), true)
+            }, 1000)
         }
     }
 
@@ -71,7 +89,9 @@ class MainActivity : AppCompatActivity(), AFI {
     }
 
     override fun signOut() {
-        googleSignInHelper.signOut()
+        googleSignInHelper.signOut {
+            changeFragmentTo(SignInFragment(), true)
+        }
     }
 
     private fun clearBackStack() {

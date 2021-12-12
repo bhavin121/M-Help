@@ -2,18 +2,22 @@ package com.example.m_help.fragments
 
 import android.content.Context
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.m_help.AFI
-import com.example.m_help.databinding.FragmentSignInBinding
+import com.example.m_help.R
+import com.example.m_help.databinding.FragmentBloodBankPanelBinding
+import com.example.m_help.databinding.FragmentHomeBinding
+import java.lang.RuntimeException
 
-class SignInFragment : Fragment() {
 
-    private var _binding: FragmentSignInBinding? = null
+class BloodBankPanelFragment : Fragment() {
+
+    private var _binding: FragmentBloodBankPanelBinding? = null
     private lateinit var afi: AFI
-    private val binding:FragmentSignInBinding get() = _binding!!
+    private val binding: FragmentBloodBankPanelBinding get() = _binding!!
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -24,15 +28,12 @@ class SignInFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentSignInBinding.inflate(inflater, container, false)
-
-        binding.signIn.setOnClickListener {
-            afi.signIn()
-        }
-
+        _binding = FragmentBloodBankPanelBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

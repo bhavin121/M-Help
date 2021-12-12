@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.PatientFragment">
+
+    <include
+        layout="@layout/details_header"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/findHospital"
+        android:layout_marginTop="30dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:lineSpacingMultiplier="1.4"
+        android:text="Find Suitable Hospital"
+        android:textColor="@color/textColor"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:paddingVertical="20dp"
+        app:rippleColor="@color/white"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/messageBloodDonor"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:lineSpacingMultiplier="1.4"
+        android:text="Message Blood Donor"
+        android:textColor="@color/textColor"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:paddingVertical="20dp"
+        app:rippleColor="@color/white"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/messagePlasmaDonor"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:lineSpacingMultiplier="1.4"
+        android:text="Message Plasma Donor"
+        android:textColor="@color/textColor"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:paddingVertical="20dp"
+        app:rippleColor="@color/white"
+        app:cornerRadius="10dp"
+        app:backgroundTint="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
